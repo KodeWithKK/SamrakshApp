@@ -2,6 +2,8 @@
   "expo": {
     "name": "SamrakshApp",
     "slug": "SamrakshApp",
+    "scheme": "SamrakshApp",
+    "entryPoint": "./app/index.ts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
