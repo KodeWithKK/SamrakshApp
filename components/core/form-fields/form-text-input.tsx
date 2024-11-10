@@ -1,16 +1,11 @@
 import { TextInputProps } from "react-native";
 
-import {
-  Control,
-  Controller,
-  FieldValues,
-  Path,
-  useController,
-} from "react-hook-form";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 
-import { Text, View } from "..";
+import { View } from "..";
 import { Input } from "../../ui/input";
-import ErrorMessage from "./error-message";
+import FormErrorMessage from "./form-error-message";
+import FormLabel from "./form-label";
 
 interface FormTextInputProps<T extends FieldValues> extends TextInputProps {
   name: Path<T>;
@@ -25,25 +20,22 @@ const FormTextInput = <T extends FieldValues>({
   ...restProps
 }: FormTextInputProps<T>) => {
   const {
+    field: { onChange, onBlur, value },
     fieldState: { error },
   } = useController({ name, control });
 
   return (
     <View className="gap-2">
-      {label && <Text className="text-muted-foreground">{label}</Text>}
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <Input
-            value={value}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            {...restProps}
-          />
-        )}
+      <FormLabel>{label}</FormLabel>
+
+      <Input
+        value={value}
+        onBlur={onBlur}
+        onChangeText={onChange}
+        {...restProps}
       />
-      <ErrorMessage>{error?.message}</ErrorMessage>
+
+      <FormErrorMessage>{error?.message}</FormErrorMessage>
     </View>
   );
 };

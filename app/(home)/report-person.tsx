@@ -4,7 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button, Text, View } from "~/components/core";
-import { DocumentPicker, FormTextInput } from "~/components/core/form-fields";
+import {
+  FormDocumentPicker,
+  FormSelect,
+  FormTextInput,
+} from "~/components/core/form-fields";
 import { IReportForm, reportFormSchema } from "~/schema/report-form";
 
 const ReportPerson = () => {
@@ -28,11 +32,15 @@ const ReportPerson = () => {
           placeholder="Enter full name"
         />
 
-        <FormTextInput
+        <FormSelect
           label="Gender"
           control={control}
           name="gender"
-          placeholder="Enter gender"
+          options={[
+            { label: "Male", value: "male" },
+            { label: "Female", value: "female" },
+            { label: "Other", value: "other" },
+          ]}
         />
 
         <FormTextInput
@@ -57,7 +65,7 @@ const ReportPerson = () => {
           placeholder="Enter last seen location"
         />
 
-        <DocumentPicker
+        <FormDocumentPicker
           label="Upload Person Image"
           control={control}
           name="file"

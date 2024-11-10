@@ -1,4 +1,11 @@
-import { Info, MoonStar, Sun } from "lucide-react-native";
+import {
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  MoonStar,
+  Sun,
+} from "lucide-react-native";
 
 import BrandIcon from "~/assets/icons/brand-text.svg";
 import HomeIcon from "~/assets/icons/home.svg";
@@ -22,6 +29,9 @@ iconWithClassName(ReportIcon);
 iconWithClassName(SOSIcon);
 iconWithClassName(BrandIcon);
 iconWithClassName(UploadIcon);
+iconWithClassName(Check);
+iconWithClassName(ChevronDown);
+iconWithClassName(ChevronUp);
 
 export {
   MoonStar,
@@ -35,4 +45,7 @@ export {
   SOSIcon,
   BrandIcon,
   UploadIcon,
+  Check,
+  ChevronDown,
+  ChevronUp,
 };

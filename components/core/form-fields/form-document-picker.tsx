@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { ImageBackground, TouchableOpacity, ViewProps } from "react-native";
-import * as ExpoDocumentPicker from "expo-document-picker";
+import * as DocumentPicker from "expo-document-picker";
 
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
@@ -8,28 +8,22 @@ import { Text, View } from "~/components/core";
 import { UploadIcon } from "~/lib/icons";
 import { cn } from "~/lib/utils";
 
-import ErrorMessage from "./error-message";
+import FormErrorMessage from "./form-error-message";
+import FormLabel from "./form-label";
 
-interface DocumentPickerAsset {
-  uri: string;
-  name: string;
-  size?: number;
-  mimeType?: string;
-}
-
-interface DocumentPickerProps<T extends FieldValues> extends ViewProps {
+interface FormDocumentPickerProps<T extends FieldValues> extends ViewProps {
   name: Path<T>;
   control: Control<T>;
   documentType: "image" | "video" | "any";
   label?: string;
 }
 
-export const DocumentPicker = <T extends FieldValues>({
+const FormDocumentPicker = <T extends FieldValues>({
   name,
   control,
   label,
   documentType,
-}: DocumentPickerProps<T>) => {
+}: FormDocumentPickerProps<T>) => {
   const {
     field: { onChange, value },
     fieldState: { error },
@@ -37,7 +31,7 @@ export const DocumentPicker = <T extends FieldValues>({
 
   const openPicker = useCallback(async () => {
     try {
-      const options: ExpoDocumentPicker.DocumentPickerOptions = {
+      const options: DocumentPicker.DocumentPickerOptions = {
         type:
           (documentType === "image" && "image/*") ||
           (documentType === "video" && "video/*") ||
@@ -45,7 +39,7 @@ export const DocumentPicker = <T extends FieldValues>({
         copyToCacheDirectory: true,
       };
 
-      const result = await ExpoDocumentPicker.getDocumentAsync(options);
+      const result = await DocumentPicker.getDocumentAsync(options);
       const asset = result.assets?.[0];
 
       if (asset) {
@@ -54,7 +48,7 @@ export const DocumentPicker = <T extends FieldValues>({
           name: asset.name,
           size: asset.size,
           mimeType: asset.mimeType,
-        } as DocumentPickerAsset);
+        });
       }
     } catch (error) {
       console.error("Error picking document:", error);
@@ -63,7 +57,7 @@ export const DocumentPicker = <T extends FieldValues>({
 
   return (
     <View className="gap-2">
-      {label && <Text className="text-muted-foreground">{label}</Text>}
+      <FormLabel>{label}</FormLabel>
 
       <TouchableOpacity
         activeOpacity={0.75}
@@ -95,7 +89,9 @@ export const DocumentPicker = <T extends FieldValues>({
         </ImageBackground>
       </TouchableOpacity>
 
-      <ErrorMessage>{error?.message}</ErrorMessage>
+      <FormErrorMessage>{error?.message}</FormErrorMessage>
     </View>
   );
 };
+
+export default FormDocumentPicker;
