@@ -10,6 +10,7 @@ import {
 
 import { Text, View } from "..";
 import { Input } from "../../ui/input";
+import ErrorMessage from "./error-message";
 
 interface FormTextInputProps<T extends FieldValues> extends TextInputProps {
   name: Path<T>;
@@ -42,7 +43,7 @@ const FormTextInput = <T extends FieldValues>({
           />
         )}
       />
-      {error && <Text className="text-destructive">{error?.message}</Text>}
+      <ErrorMessage>{error?.message}</ErrorMessage>
     </View>
   );
 };

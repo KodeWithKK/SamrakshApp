@@ -7,6 +7,7 @@ import FoundedPersonIcon from "~/assets/icons/person-search.svg";
 import ReportIcon from "~/assets/icons/report.svg";
 import SettingIcon from "~/assets/icons/setting.svg";
 import SOSIcon from "~/assets/icons/SOS.svg";
+import UploadIcon from "~/assets/icons/upload.svg";
 
 import { iconWithClassName } from "./iconWithClassName";
 
@@ -20,6 +21,7 @@ iconWithClassName(FoundedPersonIcon);
 iconWithClassName(ReportIcon);
 iconWithClassName(SOSIcon);
 iconWithClassName(BrandIcon);
+iconWithClassName(UploadIcon);
 
 export {
   MoonStar,
@@ -32,4 +34,5 @@ export {
   ReportIcon,
   SOSIcon,
   BrandIcon,
+  UploadIcon,
 };

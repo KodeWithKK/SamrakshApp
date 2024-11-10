@@ -1,3 +1,5 @@
-import FormTextInput from "./FormTextInput";
+import { DocumentPicker } from "./document-picker";
+import ErrorMessage from "./error-message";
+import FormTextInput from "./form-text-input";
 
-export { FormTextInput };
+export { FormTextInput, ErrorMessage, DocumentPicker };
