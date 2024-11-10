@@ -77,7 +77,7 @@ export const DocumentPicker = <T extends FieldValues>({
           source={{ uri: value?.uri }}
           resizeMode="cover"
           className="h-full w-full items-center justify-center"
-          imageClassName="rounded-md opacity-30"
+          imageClassName="rounded-md opacity-40 dark:opacity-30"
         >
           <View className="-mt-4 items-center">
             <UploadIcon
