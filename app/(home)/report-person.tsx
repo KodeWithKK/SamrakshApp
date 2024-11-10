@@ -1,16 +1,25 @@
-import { ScrollView } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button, Text, View } from "~/components/core";
 import { FormTextInput } from "~/components/core/form-fields";
+import { useDocumentPicker } from "~/hooks/use-document-picker";
 import { IReportForm, reportFormSchema } from "~/schema/report-form";
 
 const ReportPerson = () => {
   const { control, handleSubmit } = useForm<IReportForm>({
     resolver: zodResolver(reportFormSchema),
   });
+
+  const { data, openPicker } = useDocumentPicker({
+    control,
+    name: "file",
+    documentType: "image",
+  });
+
+  console.log(data);
 
   const onSubmit = handleSubmit((data) => console.log(data));
 
@@ -56,6 +65,15 @@ const ReportPerson = () => {
           name="last_seen_location"
           placeholder="Enter last seen location"
         />
+
+        <TouchableOpacity
+          className="self-start rounded-md border-2 border-border bg-secondary p-3"
+          onPress={openPicker}
+        >
+          <Text className="text-center text-secondary-foreground">
+            Upload Image File
+          </Text>
+        </TouchableOpacity>
 
         <Text className="my-4 font-semibold text-[15px] uppercase text-muted-foreground">
           Follow Up Details
