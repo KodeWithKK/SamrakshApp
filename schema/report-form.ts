@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 export const reportFormSchema = z.object({
-  fullname: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name is too long"),
+  fullname: z.string().min(1, "Name is required").max(100, "Name is too long"),
   gender: z
     .string()
     .min(1, "Gender is required")
@@ -49,4 +46,4 @@ export const reportFormSchema = z.object({
     .optional(),
 });
 
-export type ReportFormValues = z.infer<typeof reportFormSchema>;
+export type IReportForm = z.infer<typeof reportFormSchema>;

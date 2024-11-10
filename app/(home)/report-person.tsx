@@ -4,15 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button, Text, View } from "~/components/core";
-import FormTextInput from "~/components/core/FormTextInput";
-import { reportFormSchema, ReportFormValues } from "~/schema/report-form";
+import { FormTextInput } from "~/components/core/form-fields";
+import { IReportForm, reportFormSchema } from "~/schema/report-form";
 
 const ReportPerson = () => {
-  const {
-    control,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<ReportFormValues>({
+  const { control, handleSubmit } = useForm<IReportForm>({
     resolver: zodResolver(reportFormSchema),
   });
 
@@ -25,93 +21,75 @@ const ReportPerson = () => {
           Missing Person Details
         </Text>
 
-        <View className="gap-1">
-          <Text>Name</Text>
-          <FormTextInput
-            control={control}
-            name="fullname"
-            placeholder="Enter full name"
-          />
-        </View>
+        <FormTextInput
+          label="Name"
+          control={control}
+          name="fullname"
+          placeholder="Enter full name"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Gender</Text>
-          <FormTextInput
-            control={control}
-            name="gender"
-            placeholder="Enter gender"
-          />
-        </View>
+        <FormTextInput
+          label="Gender"
+          control={control}
+          name="gender"
+          placeholder="Enter gender"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Age</Text>
-          <FormTextInput
-            control={control}
-            name="age"
-            inputMode="numeric"
-            placeholder="Enter age"
-          />
-        </View>
+        <FormTextInput
+          label="Age"
+          control={control}
+          name="age"
+          inputMode="numeric"
+          placeholder="Enter age"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Appearance</Text>
-          <FormTextInput
-            control={control}
-            name="describe_appearance"
-            placeholder="Enter appearance details"
-          />
-        </View>
+        <FormTextInput
+          label="Appearnce"
+          control={control}
+          name="describe_appearance"
+          placeholder="Enter appearance details"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Last Seen</Text>
-          <FormTextInput
-            control={control}
-            name="last_seen_location"
-            placeholder="Enter last seen location"
-          />
-        </View>
+        <FormTextInput
+          label="Last Seen"
+          control={control}
+          name="last_seen_location"
+          placeholder="Enter last seen location"
+        />
 
         <Text className="my-4 font-semibold text-[15px] uppercase text-muted-foreground">
           Follow Up Details
         </Text>
 
-        <View className="gap-1">
-          <Text className="mb-1">Name</Text>
-          <FormTextInput
-            control={control}
-            name="follow_up_name"
-            placeholder="Enter full name"
-          />
-        </View>
+        <FormTextInput
+          label="Name"
+          control={control}
+          name="follow_up_name"
+          placeholder="Enter full name"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Phone Number</Text>
-          <FormTextInput
-            control={control}
-            name="follow_up_phone"
-            inputMode="tel"
-            placeholder="Enter phone number"
-          />
-        </View>
+        <FormTextInput
+          label="Phone Number"
+          control={control}
+          name="follow_up_phone"
+          inputMode="tel"
+          placeholder="Enter phone number"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Email</Text>
-          <FormTextInput
-            control={control}
-            name="follow_up_email"
-            inputMode="email"
-            placeholder="Enter email"
-          />
-        </View>
+        <FormTextInput
+          label="Email"
+          control={control}
+          name="follow_up_email"
+          inputMode="email"
+          placeholder="Enter email"
+        />
 
-        <View className="gap-1">
-          <Text className="mb-1">Address</Text>
-          <FormTextInput
-            control={control}
-            name="follow_up_address"
-            placeholder="Enter address"
-          />
-        </View>
+        <FormTextInput
+          label="Address"
+          control={control}
+          name="follow_up_address"
+          placeholder="Enter address"
+        />
 
         <Button className="mt-4" onPress={onSubmit}>
           <Text>Submit</Text>
