@@ -28,7 +28,7 @@ export const reportFormSchema = z.object({
   follow_up_phone: z
     .string()
     .min(1, "Phone number is required")
-    .regex(/^\d{10}$/, "Phone must be exactly 10 digits"),
+    .regex(/^\d{10}$/, "Phone number must contain 10 digits"),
   follow_up_email: z
     .string()
     .min(1, "Email is Required")

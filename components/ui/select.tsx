@@ -19,17 +19,27 @@ const SelectTrigger = React.forwardRef<
   SelectPrimitive.TriggerRef,
   SelectPrimitive.TriggerProps
 >(({ className, children, onPress, ...props }, ref) => {
+  const { open } = SelectPrimitive.useRootContext();
+
+  const CheveronIcon = open ? ChevronUp : ChevronDown;
+
   return (
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        "native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1",
+        "native:h-[48px] flex h-1 flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1",
         props.disabled && "opacity-50 web:cursor-not-allowed",
         className,
       )}
       {...props}
     >
       {children as React.ReactNode}
+      <CheveronIcon
+        key="chevron-down-icon"
+        size={18}
+        aria-hidden={true}
+        className={"text-foreground opacity-50"}
+      />
     </SelectPrimitive.Trigger>
   );
 });
@@ -149,7 +159,7 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "web:group native:py-2 native:pr-10 relative flex w-full flex-row items-center rounded-sm py-1.5 pl-2 pr-8 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent/50 web:focus:bg-accent",
+      "web:group native:py-2 native:pr-10 relative flex w-full flex-row items-center rounded-lg py-1.5 pl-2 pr-8 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent/50 web:focus:bg-accent",
       props.disabled && "opacity-50 web:pointer-events-none",
       className,
     )}
@@ -163,6 +173,7 @@ const SelectItem = React.forwardRef<
     <SelectPrimitive.ItemText className="native:text-lg font-regular text-sm text-popover-foreground web:group-focus:text-accent-foreground" />
   </SelectPrimitive.Item>
 ));
+
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
 const SelectSeparator = React.forwardRef<
@@ -175,6 +186,7 @@ const SelectSeparator = React.forwardRef<
     {...props}
   />
 ));
+
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {

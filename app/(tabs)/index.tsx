@@ -47,7 +47,7 @@ interface HomeButtonProps {
 function HomeButton({ Icon, text, href }: Readonly<HomeButtonProps>) {
   return (
     <TouchableOpacity
-      className="flex-1 items-center gap-2 rounded-md bg-secondary px-4 py-5"
+      className="flex-1 items-center gap-2 rounded-lg bg-secondary px-4 py-5"
       onPress={() => router.push(href as Href)}
     >
       <Icon className="h-10 w-10 text-foreground" />

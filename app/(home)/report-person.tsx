@@ -107,7 +107,9 @@ const ReportPerson = () => {
         />
 
         <Button className="mt-4" onPress={onSubmit}>
-          <Text>Submit</Text>
+          <Text className="font-medium text-lg text-primary-foreground">
+            Submit
+          </Text>
         </Button>
       </View>
     </ScrollView>

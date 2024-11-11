@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FlatList } from "react-native";
 
 import { Control, FieldValues, Path, useController } from "react-hook-form";
@@ -13,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { ChevronDown, ChevronUp } from "~/lib/icons";
 import { cn } from "~/lib/utils";
 
 import FormErrorMessage from "./form-error-message";
@@ -39,10 +37,7 @@ const FormSelect = <T extends FieldValues>({
   defaultValue,
   options,
 }: FormSelectProps<T>) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const insets = useSafeAreaInsets();
-
-  const CheveronIcon = isOpen ? ChevronUp : ChevronDown;
 
   const contentInsets = {
     top: insets.top,
@@ -66,26 +61,22 @@ const FormSelect = <T extends FieldValues>({
 
       <Select
         defaultValue={defaultValue}
-        onOpenChange={(val) => setIsOpen(val)}
         onValueChange={(option) => onChange(option?.value)}
       >
-        <SelectTrigger className="w-full border-2">
+        <SelectTrigger className="w-full rounded-2xl border-2">
           <SelectValue
             className={cn(
-              "native:text-lg pla font-regular text-sm text-foreground",
+              "native:text-lg font-regular text-sm text-foreground",
               !value && "text-muted-foreground/50",
             )}
             placeholder="Select a fruit"
           />
-          <CheveronIcon
-            key="chevron-down-icon"
-            size={16}
-            aria-hidden={true}
-            className={"text-foreground opacity-50"}
-          />
         </SelectTrigger>
 
-        <SelectContent insets={contentInsets} className="mt-1 w-full border-2">
+        <SelectContent
+          insets={contentInsets}
+          className="mt-1 w-full rounded-2xl border-2"
+        >
           <SelectGroup>
             <FlatList
               data={options}
