@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ScrollView } from "react-native";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,14 +10,34 @@ import {
   FormSelect,
   FormTextInput,
 } from "~/components/core/form-fields";
-import { IReportForm, reportFormSchema } from "~/schema/report-form";
+import { api, APIError } from "~/lib/api";
+import {
+  IReportPersonForm,
+  reportPersonFormSchema,
+} from "~/schema/report-person";
 
 const ReportPerson = () => {
-  const { control, handleSubmit } = useForm<IReportForm>({
-    resolver: zodResolver(reportFormSchema),
+  const [isPending, setIsPending] = useState<boolean>(false);
+
+  const { control, handleSubmit } = useForm<IReportPersonForm>({
+    resolver: zodResolver(reportPersonFormSchema),
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    setIsPending(true);
+
+    api
+      .post("/report-lost-person", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .catch((err: APIError) => {
+        console.log(err.message);
+        console.log(err.errors);
+      })
+      .finally(() => setIsPending(false));
+  });
 
   return (
     <ScrollView>
@@ -37,9 +58,9 @@ const ReportPerson = () => {
           control={control}
           name="gender"
           options={[
-            { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
-            { label: "Other", value: "other" },
+            { label: "Male", value: "Male" },
+            { label: "Female", value: "Female" },
+            { label: "Other", value: "Other" },
           ]}
         />
 
@@ -52,7 +73,7 @@ const ReportPerson = () => {
         />
 
         <FormTextInput
-          label="Appearnce"
+          label="Appearance"
           control={control}
           name="describe_appearance"
           placeholder="Enter appearance details"
@@ -106,9 +127,9 @@ const ReportPerson = () => {
           placeholder="Enter address"
         />
 
-        <Button className="mt-4" onPress={onSubmit}>
+        <Button className="mt-4" onPress={onSubmit} disabled={isPending}>
           <Text className="font-medium text-lg text-primary-foreground">
-            Submit
+            {isPending ? "Submitting..." : "Submit"}
           </Text>
         </Button>
       </View>

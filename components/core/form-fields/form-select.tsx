@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FlatList } from "react-native";
 
 import { Control, FieldValues, Path, useController } from "react-hook-form";
@@ -38,6 +39,7 @@ const FormSelect = <T extends FieldValues>({
   options,
 }: FormSelectProps<T>) => {
   const insets = useSafeAreaInsets();
+  const [isOpen, setIsOpen] = useState(false);
 
   const contentInsets = {
     top: insets.top,
@@ -61,9 +63,15 @@ const FormSelect = <T extends FieldValues>({
 
       <Select
         defaultValue={defaultValue}
+        onOpenChange={setIsOpen}
         onValueChange={(option) => onChange(option?.value)}
       >
-        <SelectTrigger className="w-full rounded-2xl border-2">
+        <SelectTrigger
+          className={cn(
+            "w-full rounded-2xl border-2",
+            isOpen && "border-primary",
+          )}
+        >
           <SelectValue
             className={cn(
               "native:text-lg font-regular text-sm text-foreground",
@@ -75,7 +83,10 @@ const FormSelect = <T extends FieldValues>({
 
         <SelectContent
           insets={contentInsets}
-          className="mt-1 w-full rounded-2xl border-2"
+          className={cn(
+            "mt-1 w-full rounded-2xl border-2",
+            // isOpen && "border-primary",
+          )}
         >
           <SelectGroup>
             <FlatList

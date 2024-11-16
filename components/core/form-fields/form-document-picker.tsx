@@ -46,8 +46,8 @@ const FormDocumentPicker = <T extends FieldValues>({
         onChange({
           uri: asset.uri,
           name: asset.name,
-          size: asset.size,
-          mimeType: asset.mimeType,
+          type: asset?.mimeType,
+          // size: asset.size,
         });
       }
     } catch (error) {

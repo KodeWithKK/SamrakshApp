@@ -9,6 +9,7 @@ import {
 
 import BrandIcon from "~/assets/icons/brand-text.svg";
 import HomeIcon from "~/assets/icons/home.svg";
+import LoaderIcon from "~/assets/icons/loader.svg";
 import MissingPersonIcon from "~/assets/icons/missing-person.svg";
 import FoundedPersonIcon from "~/assets/icons/person-search.svg";
 import ReportIcon from "~/assets/icons/report.svg";
@@ -32,6 +33,7 @@ iconWithClassName(UploadIcon);
 iconWithClassName(Check);
 iconWithClassName(ChevronDown);
 iconWithClassName(ChevronUp);
+iconWithClassName(LoaderIcon);
 
 export {
   MoonStar,
@@ -48,4 +50,5 @@ export {
   Check,
   ChevronDown,
   ChevronUp,
+  LoaderIcon,
 };
