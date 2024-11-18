@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 
-import { ThemeToggle } from "~/components/ThemeToggle";
+import { ThemeToggle } from "~/components/features/ThemeToggle";
 import { BrandIcon, HomeIcon, SettingIcon } from "~/lib/icons";
 import { useColorScheme } from "~/lib/useColorScheme";
 

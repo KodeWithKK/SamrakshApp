@@ -15,13 +15,19 @@ import {
   IReportPersonForm,
   reportPersonFormSchema,
 } from "~/schema/report-person";
+import { useToastContext } from "~/context/toast-provider";
 
 const ReportPerson = () => {
+  const { showToast } = useToastContext();
   const [isPending, setIsPending] = useState<boolean>(false);
 
   const { control, handleSubmit } = useForm<IReportPersonForm>({
     resolver: zodResolver(reportPersonFormSchema),
   });
+
+  const checkToast = () => {
+    showToast("Hello World");
+  };
 
   const onSubmit = handleSubmit((data) => {
     setIsPending(true);
@@ -35,6 +41,8 @@ const ReportPerson = () => {
       .catch((err: APIError) => {
         console.log(err.message);
         console.log(err.errors);
+        // https://www.npmjs.com/package/@backpackapp-io/react-native-toast
+        // https://dribbble.com/shots/25145688-Dark-Toasts-Status
       })
       .finally(() => setIsPending(false));
   });
@@ -127,7 +135,7 @@ const ReportPerson = () => {
           placeholder="Enter address"
         />
 
-        <Button className="mt-4" onPress={onSubmit} disabled={isPending}>
+        <Button className="mt-4" onPress={checkToast} disabled={isPending}>
           <Text className="font-medium text-lg text-primary-foreground">
             {isPending ? "Submitting..." : "Submit"}
           </Text>

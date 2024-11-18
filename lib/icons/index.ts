@@ -5,6 +5,7 @@ import {
   Info,
   MoonStar,
   Sun,
+  XIcon,
 } from "lucide-react-native";
 
 import BrandIcon from "~/assets/icons/brand-text.svg";
@@ -34,6 +35,7 @@ iconWithClassName(Check);
 iconWithClassName(ChevronDown);
 iconWithClassName(ChevronUp);
 iconWithClassName(LoaderIcon);
+iconWithClassName(XIcon);
 
 export {
   MoonStar,
@@ -51,4 +53,5 @@ export {
   ChevronDown,
   ChevronUp,
   LoaderIcon,
+  XIcon,
 };
