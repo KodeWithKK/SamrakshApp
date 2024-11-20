@@ -11,6 +11,7 @@ import {
   FormSelect,
   FormTextInput,
 } from "~/components/core/form-fields";
+import { InlineLoader } from "~/components/core/loaders";
 import { api, APIError, APIResponse } from "~/lib/api";
 import {
   IReportPersonForm,
@@ -139,7 +140,7 @@ const ReportPerson = () => {
 
         <Button className="mt-4" onPress={onSubmit} disabled={isPending}>
           <Text className="font-medium text-lg text-primary-foreground">
-            {isPending ? "Submitting..." : "Submit"}
+            {isPending ? <InlineLoader /> : "Submit"}
           </Text>
         </Button>
       </View>
