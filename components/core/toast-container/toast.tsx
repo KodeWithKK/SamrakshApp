@@ -16,15 +16,16 @@ import { XIcon } from "~/lib/icons";
 import { cn } from "~/lib/utils";
 
 import { toastMap } from "./constants";
+import { ToastOptions } from "./index";
 
 interface ToastProps {
   message: string;
   type: "success" | "info" | "warning" | "error";
-  onRemove?: () => void;
+  options?: ToastOptions;
+  onRemove: () => void;
 }
 
-const Toast = ({ message, type, onRemove }: ToastProps) => {
-  const display = useSharedValue("flex");
+const Toast = ({ message, type, options, onRemove }: ToastProps) => {
   const translateX = useSharedValue(0);
   const opacity = useSharedValue(1);
   const translateY = useSharedValue(50);
@@ -37,20 +38,30 @@ const Toast = ({ message, type, onRemove }: ToastProps) => {
       easing: Easing.inOut(Easing.quad),
     });
 
-    const timeoutId = setTimeout(() => {
-      translateY.value = withTiming(-50, {
-        duration: 300,
-        easing: Easing.out(Easing.quad),
-      });
-      opacity.value = withSpring(0, { duration: 300 });
-      // display.value = withSpring("none", { duration: 300 });
-    }, 3000);
+    let timeoutId = null;
 
-    return () => clearTimeout(timeoutId);
+    if (options?.autoRemove ?? true) {
+      timeoutId = setTimeout(() => {
+        translateY.value = withTiming(-50, {
+          duration: 300,
+          easing: Easing.out(Easing.quad),
+        });
+        opacity.value = withSpring(0, { duration: 300 });
+
+        setTimeout(() => {
+          onRemove();
+        }, 300);
+      }, 3000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        return clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    display: display.value as "flex" | "none",
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },
@@ -66,7 +77,6 @@ const Toast = ({ message, type, onRemove }: ToastProps) => {
     .onEnd(() => {
       if (translateX.value > 100) {
         translateY.value = withSpring(-50, { duration: 300 }, () => {
-          display.value = "none";
           onRemove && runOnJS(onRemove)();
         });
       } else {
@@ -93,12 +103,9 @@ const Toast = ({ message, type, onRemove }: ToastProps) => {
             </View>
           </View>
 
-          <Text className="text-sm text-white">{message}</Text>
+          <Text className="w-[80%] text-sm text-white">{message}</Text>
 
-          <TouchableOpacity
-            className="ml-auto"
-            onPress={() => (display.value = "none")}
-          >
+          <TouchableOpacity className="ml-auto" onPress={() => onRemove()}>
             <XIcon
               className={"h-[18px] w-[18px] text-white/80"}
               strokeWidth={2.5}

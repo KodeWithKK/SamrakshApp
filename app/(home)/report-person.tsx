@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollView } from "react-native";
+import { router } from "expo-router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -25,10 +26,6 @@ const ReportPerson = () => {
     resolver: zodResolver(reportPersonFormSchema),
   });
 
-  const checkToast = () => {
-    toast.info("Hello World");
-  };
-
   const onSubmit = handleSubmit((data) => {
     setIsPending(true);
 
@@ -38,9 +35,16 @@ const ReportPerson = () => {
           "Content-Type": "multipart/form-data",
         },
       })
+      .then(() => {
+        toast.success("Form Submitted Successfully!", {
+          autoRemove: false,
+        });
+        router.push("/");
+      })
       .catch((err: APIError) => {
-        console.log(err.message);
-        console.log(err.errors);
+        toast.error(err.message, {
+          autoRemove: false,
+        });
       })
       .finally(() => setIsPending(false));
   });
@@ -133,7 +137,7 @@ const ReportPerson = () => {
           placeholder="Enter address"
         />
 
-        <Button className="mt-4" onPress={checkToast} disabled={isPending}>
+        <Button className="mt-4" onPress={onSubmit} disabled={isPending}>
           <Text className="font-medium text-lg text-primary-foreground">
             {isPending ? "Submitting..." : "Submit"}
           </Text>
