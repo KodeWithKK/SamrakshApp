@@ -18,7 +18,7 @@ import {
 import { useToastContext } from "~/context/toast-provider";
 
 const ReportPerson = () => {
-  const { showToast } = useToastContext();
+  const { toast } = useToastContext();
   const [isPending, setIsPending] = useState<boolean>(false);
 
   const { control, handleSubmit } = useForm<IReportPersonForm>({
@@ -26,7 +26,7 @@ const ReportPerson = () => {
   });
 
   const checkToast = () => {
-    showToast("Hello World");
+    toast.info("Hello World");
   };
 
   const onSubmit = handleSubmit((data) => {
@@ -41,8 +41,6 @@ const ReportPerson = () => {
       .catch((err: APIError) => {
         console.log(err.message);
         console.log(err.errors);
-        // https://www.npmjs.com/package/@backpackapp-io/react-native-toast
-        // https://dribbble.com/shots/25145688-Dark-Toasts-Status
       })
       .finally(() => setIsPending(false));
   });
