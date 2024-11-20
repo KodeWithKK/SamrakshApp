@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
-import { APIError, convertToFormData } from "./helpers";
+import { convertToFormData } from "./helper";
+import { APIError, APIResponse, StandardResponse } from "./types";
 
 const BASE_URL = "http://192.168.29.138:8000";
 
@@ -12,26 +13,16 @@ const axiosInstance = axios.create({
   },
 });
 
-// Standard Response Type
-interface StandardResponse<TData, TError = string[]> {
-  isSuccess: boolean;
-  message: string;
-  data: TData;
-  errors: TError;
-}
-
 // Axios Request Wrapper
-async function request<TData, TError = string[]>(
+async function request<TData, TError>(
   url: string,
   config: AxiosRequestConfig = {},
-): Promise<TData> {
+): Promise<APIResponse<TData>> {
   const { data: body, headers } = config;
 
-  // Check for multipart/form-data in headers
   const isMultipartFormData =
     headers?.["Content-Type"] === "multipart/form-data";
 
-  // Convert to FormData if specified and the object contains file-like structures
   if (
     isMultipartFormData &&
     body &&
@@ -39,7 +30,8 @@ async function request<TData, TError = string[]>(
     !(body instanceof FormData)
   ) {
     config.data = convertToFormData(body);
-    config.headers = { ...headers }; // Content-Type is automatically set by Axios for FormData
+    // Content-Type is automatically set by Axios for FormData
+    config.headers = { ...headers };
   }
 
   try {
@@ -56,7 +48,7 @@ async function request<TData, TError = string[]>(
       throw new APIError<TError>(message, errors);
     }
 
-    return data;
+    return { message, data } as APIResponse<TData>;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const { response } = error as AxiosError<StandardResponse<TData, TError>>;
@@ -73,25 +65,27 @@ async function request<TData, TError = string[]>(
 
 // API Helper Methods
 const api = {
-  get: <TData, TError = string[]>(url: string, config?: AxiosRequestConfig) =>
-    request<TData, TError>(url, { method: "GET", ...config }),
+  get: <TData = {}, TError = string[]>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ) => request<TData, TError>(url, { method: "GET", ...config }),
 
-  post: <TData, TError = string[]>(
+  post: <TData = {}, TError = string[]>(
     url: string,
     body?: any,
     config?: AxiosRequestConfig,
   ) => request<TData, TError>(url, { method: "POST", data: body, ...config }),
 
-  put: <TData, TError = string[]>(
+  put: <TData = {}, TError = string[]>(
     url: string,
     body?: any,
     config?: AxiosRequestConfig,
   ) => request<TData, TError>(url, { method: "PUT", data: body, ...config }),
 
-  delete: <TData, TError = string[]>(
+  delete: <TData = {}, TError = string[]>(
     url: string,
     config?: AxiosRequestConfig,
   ) => request<TData, TError>(url, { method: "DELETE", ...config }),
 };
 
-export { api, APIError };
+export { api, APIError, APIResponse };

@@ -11,7 +11,7 @@ import {
   FormSelect,
   FormTextInput,
 } from "~/components/core/form-fields";
-import { api, APIError } from "~/lib/api";
+import { api, APIError, APIResponse } from "~/lib/api";
 import {
   IReportPersonForm,
   reportPersonFormSchema,
@@ -35,11 +35,11 @@ const ReportPerson = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => {
-        toast.success("Form Submitted Successfully!", {
+      .then((res: APIResponse) => {
+        toast.success(res.message, {
           autoRemove: false,
         });
-        router.push("/");
+        router.replace("/");
       })
       .catch((err: APIError) => {
         toast.error(err.message, {

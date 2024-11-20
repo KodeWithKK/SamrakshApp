@@ -1,16 +1,3 @@
-// Custom Error Class for React Query
-export class APIError<TError = string[]> extends Error {
-  message: string;
-  errors: TError;
-
-  constructor(message: string, errors: TError) {
-    super(message);
-    this.message = message;
-    this.errors = errors;
-  }
-}
-
-// Helper function to recursively check and convert object to FormData
 export function convertToFormData(
   data: Record<string, any>,
   formData = new FormData(),
